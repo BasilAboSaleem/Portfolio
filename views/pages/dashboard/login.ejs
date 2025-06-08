@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>SB Admin 2 - Login</title>
+    <title>portfolio dashboard - Login</title>
 
     <!-- Custom fonts for this template-->
     <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -19,6 +19,12 @@
 
     <!-- Custom styles for this template-->
     <link href="css/sb-admin-2.min.css" rel="stylesheet">
+    <style>\  #emailError,
+      #passwordError {
+        color: #ff5d79;
+        margin-left: 0.4rem;
+        font-weight: 600;
+      }</style>
 
 </head>
 
@@ -39,17 +45,19 @@
                             <div class="col-lg-6">
                                 <div class="p-5">
                                     <div class="text-center">
-                                        <h1 class="h4 text-gray-900 mb-4">Welcome Back!</h1>
+                                        <h1 class="h4 text-gray-900 mb-4">Welcome Basil!</h1>
                                     </div>
-                                    <form class="user">
+                                    <form id="loginForm" class="user" action="/login" method="post">
                                         <div class="form-group">
                                             <input type="email" class="form-control form-control-user"
-                                                id="exampleInputEmail" aria-describedby="emailHelp"
-                                                placeholder="Enter Email Address...">
+                                                id="emailId" aria-describedby="emailHelp"
+                                                placeholder="Enter Email Address..." name="email">
+                                            <div id="emailError"></div>
                                         </div>
                                         <div class="form-group">
                                             <input type="password" class="form-control form-control-user"
-                                                id="exampleInputPassword" placeholder="Password">
+                                                id="passwordId" placeholder="Password" name="password">
+                                            <div id="passwordError"></div>
                                         </div>
                                         <div class="form-group">
                                             <div class="custom-control custom-checkbox small">
@@ -58,24 +66,18 @@
                                                     Me</label>
                                             </div>
                                         </div>
-                                        <a href="index.html" class="btn btn-primary btn-user btn-block">
-                                            Login
-                                        </a>
-                                        <hr>
-                                        <a href="index.html" class="btn btn-google btn-user btn-block">
-                                            <i class="fab fa-google fa-fw"></i> Login with Google
-                                        </a>
-                                        <a href="index.html" class="btn btn-facebook btn-user btn-block">
-                                            <i class="fab fa-facebook-f fa-fw"></i> Login with Facebook
-                                        </a>
+                                      <button type="submit" class="btn btn-primary btn-user btn-block">
+                                        Login
+                                      </button>
+                                        <hr> 
+                                       
+                                      
                                     </form>
                                     <hr>
                                     <div class="text-center">
-                                        <a class="small" href="forgot-password.html">Forgot Password?</a>
+                                        <a class="small" href="forgot-password.ejs">Forgot Password?</a>
                                     </div>
-                                    <div class="text-center">
-                                        <a class="small" href="register.html">Create an Account!</a>
-                                    </div>
+                                
                                 </div>
                             </div>
                         </div>
@@ -87,6 +89,50 @@
         </div>
 
     </div>
+     <!-- Scripts -->
+  <script>
+    const form = document.getElementById("loginForm");
+  
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+  
+      // إخفاء الأخطاء القديمة
+      document.getElementById("emailError").textContent = "";
+      document.getElementById("passwordError").textContent = "";
+  
+      const formData = {
+        email: document.getElementById("emailId").value,
+        password: document.getElementById("passwordId").value,
+      };
+  
+      const res = await fetch("/login", {
+        method: "POST",
+        body: JSON.stringify(formData),
+        headers: { "Content-Type": "application/json" },
+      });
+  
+      const data = await res.json();
+  
+      // التحقق من الاستجابة بشكل كامل
+      console.log(data); // عرض المحتوى بالكامل في الـ console
+  
+      // إذا كانت هناك أخطاء في الاستجابة
+      if (data.notFoundEmail) {
+        document.getElementById("emailError").textContent = "Please provide a valid email OR register";
+        console.log(data.notFoundEmail);
+      }
+  
+      if (data.errPassword) {  // تأكد من استخدام نفس المفتاح في الكود
+        console.log(data.errPassword);  // هنا استخدمنا data.errPassword
+        document.getElementById("passwordError").textContent = "Please provide a valid password";
+      }
+      
+      // إذا كانت الاستجابة تحتوي على success و redirectTo
+      if (data.success && data.redirectTo) {
+        window.location.href = data.redirectTo; // إعادة التوجيه إلى صفحة الداشبورد
+      }
+    });
+  </script>
 
     <!-- Bootstrap core JavaScript-->
     <script src="vendor/jquery/jquery.min.js"></script>

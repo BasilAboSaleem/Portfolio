@@ -34,6 +34,9 @@ app.use(session({
 // إعداد flash
 app.use(flash());
 const coreRoute = require('./routes/coreRoute');
+const authRoute = require('./routes/authRoute');
+const dashboardRoute = require('./routes/dashboardRoute');
+const { checkIfUser, requireAuth } = require('./middlewares/authMiddlewares');
 
 var cookieParser = require('cookie-parser')
 app.use(cookieParser())
@@ -69,4 +72,8 @@ mongoose
     console.log(err);
   });
 
+app.use(checkIfUser);
+
  app.use(coreRoute);
+  app.use(authRoute);
+  app.use(dashboardRoute);
