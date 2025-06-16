@@ -25,7 +25,7 @@ exports.login_post = async (req, res) => {
       secure: process.env.NODE_ENV === 'production', // Use secure cookies in production
       sameSite: 'Strict' // Prevent CSRF attacks
     });
-     return res.redirect('/dashboard'); 
+     return res.json({success: "Login successful",  redirectTo: '/dashboard'});
 
     
   } catch (error) {

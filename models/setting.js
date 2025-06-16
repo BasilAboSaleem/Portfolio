@@ -78,6 +78,10 @@ const settingSchema = new mongoose.Schema({
     phone: String,
     mapEmbed: String
   },
+  cv: {
+  fileUrl: String,
+  fileName: String
+},
 
   socialLinks: {
     github: String,

@@ -4,27 +4,26 @@ const rateLimit = require("express-rate-limit");
 
 
 //دالة لفحص تسجيل الدخول قبل السماج للمستخدم بالذهاب للراوت المطلوب
-const requireAuth = (req,res,next) => {
-    const token = req.cookies.jwt
-    if(token){
-        jwt.verify(token, process.env.JWTSECRET_KEY, (err) => {
-            if(err){
-                res.rediret("/login")
-            }else{
-                next()
-            } 
-            
-        })
+const requireAuth = (req, res, next) => {
+  const token = req.cookies.token; // تأكد من استخدام الاسم الصحيح
 
-}else{
-    res.redirect("/login")
-}
-
-}
+  if (token) {
+    jwt.verify(token, process.env.JWTSECRET_KEY, (err, decodedToken) => {
+      if (err) {
+        console.log("JWT verification error:", err.message);
+        res.redirect("/login"); // إصلاح الخطأ الإملائي
+      } else {
+        next();
+      }
+    });
+  } else {
+    res.redirect("/login");
+  }
+};
 //دالة لفحص تسجيل المستخدم وارسال بياناته عير متغير الى الفرونت لاستخدامها
 const checkIfUser =  (req, res, next) => {
- 
-  const token = req.cookies.jwt;
+
+  const token = req.cookies.token;
 
   if (token) {
     jwt.verify(token, process.env.JWTSECRET_KEY, async (err, decoded) => {
@@ -46,14 +45,6 @@ const checkIfUser =  (req, res, next) => {
   }
 };
 
-//دوال لفحص صلاحيات المستخدم
-const isAdmin = (req, res, next) => {
-    if (req.user && req.user.role === 'Admin') {
-        next();
-    } else {
-        res.status(403).send('Access denied.');
-    }
-}
 
 
 
@@ -71,6 +62,5 @@ const loginLimiter = rateLimit({
 module.exports = {
     requireAuth,
     checkIfUser,
-    isAdmin,
     loginLimiter
 }
