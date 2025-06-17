@@ -8,19 +8,23 @@ const settingSchema = new mongoose.Schema({
     backgroundImage: String,
   },
 
-  aboutSection: {
-    title: String,
-    content: String,
-    profileImage: String,
-    birthday: String,
-    website: String,
-    phone: String,
-    city: String,
-    age: Number,
-    degree: String,
-    email: String,
-    freelance: String,
-  },
+aboutSection: {
+  mainTitle: String,      // "About Me"
+  profession: String,     // "UI/UX Designer & Web Developer"
+  description: String,    // الفقرة الرئيسية 
+  profileImage: String,
+  birthday: String,
+  website: String,
+  phone: String,
+  city: String,
+  age: Number,
+  degree: String,
+  email: String,
+  freelance: String,
+  headerContent: String,
+  footerContent: String
+}
+,
 
   factsSection: [
     {

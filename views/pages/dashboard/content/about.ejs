@@ -26,80 +26,97 @@
 <div class="row">
   <div class="col-lg-12">
 
-    <form action="/dashboard/about" method="POST" enctype="multipart/form-data">
-      <div class="card shadow mb-4">
-        <div class="card-header py-3">
-          <h6 class="m-0 font-weight-bold text-primary">About Section</h6>
+  <form action="/dashboard/about?_method=PUT" method="POST" enctype="multipart/form-data">
+  <div class="card shadow mb-4">
+    <div class="card-header py-3">
+      <h6 class="m-0 font-weight-bold text-primary">About Section</h6>
+    </div>
+    <div class="card-body">
+
+      <div class="form-group">
+        <label>Main Title</label>
+        <input type="text" name="mainTitle" class="form-control" value="<%= setting?.aboutSection?.mainTitle || '' %>" required>
+      </div>
+      
+      <div class="form-group">
+        <label>Header Content</label>
+        <textarea name="headerContent" class="form-control" rows="3"><%= setting?.aboutSection?.headerContent || '' %></textarea>
+      </div>
+
+      <div class="form-group">
+        <label>Profession</label>
+        <input type="text" name="profession" class="form-control" value="<%= setting?.aboutSection?.profession || '' %>" required>
+      </div>
+
+      <div class="form-group">
+        <label>Description</label>
+        <textarea name="description" class="form-control" rows="4" required><%= setting?.aboutSection?.description || '' %></textarea>
+      </div>
+
+      <div class="form-group">
+        <label>Profile Image</label><br>
+        <img src="<%= setting?.aboutSection?.profileImage || '' %>" alt="Profile" width="120" class="mb-2 rounded-circle">
+        <input type="file" name="profileImage" class="form-control-file">
+      </div>
+
+      <div class="form-row">
+        <div class="form-group col-md-6">
+          <label>Birthday</label>
+          <input type="date" name="birthday" class="form-control" value="<%= setting?.aboutSection?.birthday || '' %>">
         </div>
-        <div class="card-body">
-
-          <div class="form-group">
-            <label>Title</label>
-            <input type="text" name="title" class="form-control" value="" required>
-          </div>
-
-          <div class="form-group">
-            <label>Content</label>
-            <textarea name="content" class="form-control" rows="4" required></textarea>
-          </div>
-
-          <div class="form-group">
-            <label>Profile Image</label><br>
-          
-              <img src="" alt="Profile" width="120" class="mb-2 rounded-circle">
-           
-            <input type="file" name="profileImage" class="form-control-file">
-          </div>
-
-          <div class="form-row">
-            <div class="form-group col-md-6">
-              <label>Birthday</label>
-              <input type="date" name="birthday" class="form-control" value="**">
-            </div>
-            <div class="form-group col-md-6">
-              <label>Website</label>
-              <input type="text" name="website" class="form-control" value="**">
-            </div>
-          </div>
-
-          <div class="form-row">
-            <div class="form-group col-md-6">
-              <label>Phone</label>
-              <input type="text" name="phone" class="form-control" value="**">
-            </div>
-            <div class="form-group col-md-6">
-              <label>City</label>
-              <input type="text" name="city" class="form-control" value="**">
-            </div>
-          </div>
-
-          <div class="form-row">
-            <div class="form-group col-md-4">
-              <label>Age</label>
-              <input type="number" name="age" class="form-control" value="**">
-            </div>
-            <div class="form-group col-md-4">
-              <label>Degree</label>
-              <input type="text" name="degree" class="form-control" value="**">
-            </div>
-            <div class="form-group col-md-4">
-              <label>Email</label>
-              <input type="email" name="email" class="form-control" value="**">
-            </div>
-          </div>
-
-          <div class="form-group">
-            <label>Freelance Status</label>
-            <select name="freelance" class="form-control">
-              <option >Available</option>
-              <option >Not Available</option>
-            </select>
-          </div>
-
-          <button type="submit" class="btn btn-primary">Save Changes</button>
+        <div class="form-group col-md-6">
+          <label>Website</label>
+          <input type="text" name="website" class="form-control" value="<%= setting?.aboutSection?.website || '' %>">
         </div>
       </div>
-    </form>
+
+      <div class="form-row">
+        <div class="form-group col-md-6">
+          <label>Phone</label>
+          <input type="text" name="phone" class="form-control" value="<%= setting?.aboutSection?.phone || '' %>">
+        </div>
+        <div class="form-group col-md-6">
+          <label>City</label>
+          <input type="text" name="city" class="form-control" value="<%= setting?.aboutSection?.city || '' %>">
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group col-md-4">
+          <label>Age</label>
+          <input type="number" name="age" class="form-control" value="<%= setting?.aboutSection?.age || '' %>">
+        </div>
+        <div class="form-group col-md-4">
+          <label>Degree</label>
+          <input type="text" name="degree" class="form-control" value="<%= setting?.aboutSection?.degree || '' %>">
+        </div>
+        <div class="form-group col-md-4">
+          <label>Email</label>
+          <input type="email" name="email" class="form-control" value="<%= setting?.aboutSection?.email || '' %>">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Freelance Status</label>
+        <select name="freelance" class="form-control">
+          <option value="Available" <%= setting?.aboutSection?.freelance === 'Available' ? 'selected' : '' %>>Available</option>
+          <option value="Not Available" <%= setting?.aboutSection?.freelance === 'Not Available' ? 'selected' : '' %>>Not Available</option>
+        </select>
+      </div>
+
+      
+
+      <div class="form-group">
+        <label>Footer Content</label>
+        <textarea name="footerContent" class="form-control" rows="3"><%= setting?.aboutSection?.footerContent || '' %></textarea>
+      </div>
+
+      <button type="submit" class="btn btn-primary">Save Changes</button>
+
+    </div>
+  </div>
+</form>
+
 
   </div>
 </div>

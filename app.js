@@ -73,6 +73,11 @@ mongoose
   });
 
 app.use(checkIfUser);
+ app.use((req, res, next) => {
+    res.locals.success = req.flash('success');
+    res.locals.error = req.flash('error');
+    next();
+  });
 
  app.use(coreRoute);
   app.use(authRoute);
