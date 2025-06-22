@@ -37,7 +37,8 @@ aboutSection: {
   skillsSection: [
     {
       name: String,
-      percentage: Number
+      iconClass: String,          // كلاس الأيقونة FontAwesome
+      colorClass: String
     }
   ],
 
