@@ -43,20 +43,56 @@ aboutSection: {
   ],
 
   resumeSection: {
+    summary: {
+    name: String,
+    title: String, // مثل: "Graphic Designer"
+    description: String,
+    address: String,
+    phone: String,
+    email: String
+  },
     education: [
       {
-        title: String,
-        from: String,
-        to: String,
-        description: String
+      degree: String, 
+      field: String, 
+      year: String,   
+      institution: String,
+      details: String
       }
     ],
     experience: [
       {
-        title: String,
-        from: String,
-        to: String,
-        description: String
+      title: String,      // مثل: Senior Graphic Designer
+      period: String,     // مثل: 2019 - Present
+      company: String,    // مثل: Experion, New York, NY
+      responsibilities: [String] // قائمة المهام (multiple lines)
+      }
+    ]
+  },
+
+  
+  portfolioSection: {
+    mainTitle: { type: String, default: 'Portfolio' },
+    description: { type: String, default: '' },
+
+    filters: [
+      {
+        name: { type: String },       // مثل: "App"
+        className: { type: String }   // مثل: "filter-app"
+      }
+    ],
+
+    items: [
+      {
+        title: { type: String, required: true },
+        categoryClass: { type: String, required: true }, // filter-app, filter-books...
+        imageUrl: { type: String, required: true },       // الصورة المصغرة (Thumbnail)
+        description: { type: String },
+        previewImage: { type: String },                  // الصورة عند الضغط
+        previewTitle: { type: String },
+        detailsLink: { type: String },                   // رابط التفاصيل
+        galleryGroup: { type: String },                  // portfolio-gallery-app
+        order: { type: Number, default: 0 }
       }
     ]
   },
@@ -68,7 +104,7 @@ aboutSection: {
       description: String
     }
   ],
-
+//لاحقا سيتم اضافته
   testimonialsSection: [
     {
       name: String,
@@ -77,12 +113,13 @@ aboutSection: {
     }
   ],
 
-  contactSection: {
-    location: String,
-    email: String,
-    phone: String,
-    mapEmbed: String
-  },
+ contactSection: {
+  address: String,            
+  phone: String,              
+  email: String,              
+  mapEmbedUrl: String         // رابط iframe لخريطة Google
+},
+
   cv: {
   fileUrl: String,
   fileName: String

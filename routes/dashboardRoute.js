@@ -10,4 +10,14 @@ router.get('/dashboard/about', requireAuth,  dashboardController.dashboard_about
 router.put('/dashboard/about', requireAuth,upload.single("profileImage"), dashboardController.dashboard_about_put);
 router.get("/dashboard/skills", requireAuth, dashboardController.dashboard_skills_get);
 router.delete('/dashboard/skills/:id', requireAuth, dashboardController.dashboard_skills_delete);
+router.get("/dashboard/resume", requireAuth, dashboardController.dashboard_resume_get);
+
+
+router.get("/dashboard/portfolio", requireAuth, dashboardController.dashboard_portfolio_get);
+
+
+router.get("/dashboard/services", requireAuth, dashboardController.dashboard_services_get);
+
+
+router.get("/dashboard/contact", requireAuth, dashboardController.dashboard_contact_get);
 module.exports = router;

@@ -14,6 +14,7 @@ const { Parser } = require('json2csv');
 const { send } = require("process");
 const nodemailer = require('nodemailer');
 const crypto = require('crypto');
+const e = require("express");
  // Configuration cloudinary اعدادات الكلاودنري
  cloudinary.config({ 
     cloud_name: process.env.CLOUD_NAME, 
@@ -157,6 +158,84 @@ exports.dashboard_skills_delete = async (req, res) => {
     res.status(500).json({ error: 'An error occurred while deleting the skill.' });
   }
 };
+exports.dashboard_resume_get = async (req, res) => {
+  try{
+    const setting = await Setting.findOne();
+    if (!setting) {
+      new Setting(); // إذا لم توجد إعدادات، قم بإنشاء واحدة جديدة
+    }
 
+    res.render('pages/dashboard/content/resume', {
+      title: 'Resume',
+      setting: setting,
+    });
+
+  }
+  catch (error) {
+    console.error("Error fetching resume section:", error);
+    res.status(500).render('pages/dashboard/errors/404', { error: 'An error occurred while fetching the resume page.' });
+  }
+}
+
+
+
+exports.dashboard_portfolio_get = async (req, res) => {
+    try {
+        const setting = await Setting.findOne();
+        if (!setting) {
+            new Setting(); // إذا لم توجد إعدادات، قم بإنشاء واحدة جديدة
+        }
+
+        res.render('pages/dashboard/content/portfolio', {
+            title: 'Portfolio',
+            setting: setting,
+        });
+
+    } catch (error) {
+        console.error("Error fetching portfolio section:", error);
+        res.status(500).render('pages/dashboard/errors/404', { error: 'An error occurred while fetching the portfolio page.' });
+    }
+}
+
+
+
+exports.dashboard_services_get = async (req, res) => {
+    try {
+        const setting = await Setting.findOne();
+        if (!setting) {
+            new Setting(); // إذا لم توجد إعدادات، قم بإنشاء واحدة جديدة
+        }
+
+        res.render('pages/dashboard/content/services', {
+            title: 'Services',
+            setting: setting,
+        });
+
+    } catch (error) {
+        console.error("Error fetching services section:", error);
+        res.status(500).render('pages/dashboard/errors/404', { error: 'An error occurred while fetching the services page.' });
+    }
+}
+
+
+
+
+exports.dashboard_contact_get = async (req, res) => {
+    try {
+        const setting = await Setting.findOne();
+        if (!setting) {
+            new Setting(); // إذا لم توجد إعدادات، قم بإنشاء واحدة جديدة
+        }
+
+        res.render('pages/dashboard/content/contact', {
+            title: 'Contact',
+            setting: setting,
+        });
+
+    } catch (error) {
+        console.error("Error fetching contact section:", error);
+        res.status(500).render('pages/dashboard/errors/404', { error: 'An error occurred while fetching the contact page.' });
+    }
+};
 
 

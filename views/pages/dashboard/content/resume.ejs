@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+  <%- include('../../../partials/dashboardPartials/head.ejs') %>
+  <body id="page-top">
+    <div id="wrapper">
+      <!-- Sidebar -->
+      <%- include('../../../partials/dashboardPartials/sidebar.ejs') %>
+
+      <!-- Content Wrapper -->
+      <div id="content-wrapper" class="d-flex flex-column">
+        <div id="content">
+          <!-- Topbar -->
+          <%- include('../../../partials/dashboardPartials/topbar.ejs') %>
+
+          <!-- Flash Messages -->
+          <% if (success && success.length > 0) { %>
+            <div class="alert alert-success" id="flash-success"><%= success[0] %></div>
+          <% } %>
+          <% if (error && error.length > 0) { %>
+            <div class="alert alert-danger" id="flash-error"><%= error[0] %></div>
+          <% } %>
+
+          <!-- Page Heading -->
+          <h1 class="h3 mb-4 text-gray-800">Resume Settings</h1>
+
+          <div class="row">
+            <div class="col-lg-12">
+              <form action="/dashboard/resume" method="POST">
+                <!-- Summary -->
+                <div class="card shadow mb-4">
+                  <div class="card-header bg-primary text-white">Summary</div>
+                  <div class="card-body">
+                    <div class="form-row">
+                      <div class="form-group col-md-6">
+                        <label>Name</label>
+                        <input type="text" name="summary[name]" class="form-control" placeholder="Brandon Johnson">
+                      </div>
+                      <div class="form-group col-md-6">
+                        <label>Title</label>
+                        <input type="text" name="summary[title]" class="form-control" placeholder="Graphic Designer">
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <label>Description</label>
+                      <textarea name="summary[description]" class="form-control" rows="3"></textarea>
+                    </div>
+                    <div class="form-row">
+                      <div class="form-group col-md-6">
+                        <label>Address</label>
+                        <input type="text" name="summary[address]" class="form-control">
+                      </div>
+                      <div class="form-group col-md-3">
+                        <label>Phone</label>
+                        <input type="text" name="summary[phone]" class="form-control">
+                      </div>
+                      <div class="form-group col-md-3">
+                        <label>Email</label>
+                        <input type="email" name="summary[email]" class="form-control">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Education -->
+                <div class="card shadow mb-4">
+                  <div class="card-header d-flex justify-content-between align-items-center">
+                    <span>Education</span>
+                    <button type="button" class="btn btn-sm btn-secondary" id="add-education">+ Add Education</button>
+                  </div>
+                  <div class="card-body" id="education-container">
+                    <!-- Education items added dynamically -->
+                  </div>
+                </div>
+
+                <!-- Experience -->
+                <div class="card shadow mb-4">
+                  <div class="card-header d-flex justify-content-between align-items-center">
+                    <span>Professional Experience</span>
+                    <button type="button" class="btn btn-sm btn-secondary" id="add-experience">+ Add Experience</button>
+                  </div>
+                  <div class="card-body" id="experience-container">
+                    <!-- Experience items added dynamically -->
+                  </div>
+                </div>
+
+                <button type="submit" class="btn btn-primary">Save Resume</button>
+              </form>
+            </div>
+          </div>
+        </div>
+
+        <!-- Footer -->
+        <%- include('../../../partials/dashboardPartials/logout.ejs') %>
+      </div>
+    </div>
+
+    <a class="scroll-to-top rounded" href="#page-top"><i class="fas fa-angle-up"></i></a>
+
+    <!-- Templates -->
+    <template id="education-template">
+      <div class="border p-3 mb-3 position-relative education-item">
+        <button type="button" class="btn btn-danger btn-sm position-absolute" style="top:10px; right:10px;" onclick="this.parentElement.remove()">X</button>
+        <div class="form-row">
+          <div class="form-group col-md-6">
+            <label>Degree</label>
+            <input type="text" name="education[][degree]" class="form-control">
+          </div>
+          <div class="form-group col-md-6">
+            <label>Field</label>
+            <input type="text" name="education[][field]" class="form-control">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group col-md-6">
+            <label>Year</label>
+            <input type="text" name="education[][year]" class="form-control">
+          </div>
+          <div class="form-group col-md-6">
+            <label>Institution</label>
+            <input type="text" name="education[][institution]" class="form-control">
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Details</label>
+          <textarea name="education[][details]" class="form-control" rows="2"></textarea>
+        </div>
+      </div>
+    </template>
+
+    <template id="experience-template">
+      <div class="border p-3 mb-3 position-relative experience-item">
+        <button type="button" class="btn btn-danger btn-sm position-absolute" style="top:10px; right:10px;" onclick="this.parentElement.remove()">X</button>
+        <div class="form-row">
+          <div class="form-group col-md-6">
+            <label>Job Title</label>
+            <input type="text" name="experience[][title]" class="form-control">
+          </div>
+          <div class="form-group col-md-6">
+            <label>Period</label>
+            <input type="text" name="experience[][period]" class="form-control">
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Company</label>
+          <input type="text" name="experience[][company]" class="form-control">
+        </div>
+        <div class="form-group">
+          <label>Responsibilities (one per line)</label>
+          <textarea name="experience[][responsibilities]" class="form-control" rows="3"></textarea>
+        </div>
+      </div>
+    </template>
+
+    <!-- Scripts -->
+    <script src="/vendor/jquery/jquery.min.js"></script>
+    <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+      document.getElementById("add-education").addEventListener("click", function () {
+        const template = document.getElementById("education-template").content.cloneNode(true);
+        document.getElementById("education-container").appendChild(template);
+      });
+
+      document.getElementById("add-experience").addEventListener("click", function () {
+        const template = document.getElementById("experience-template").content.cloneNode(true);
+        document.getElementById("experience-container").appendChild(template);
+      });
+    </script>
+  </body>
+</html>
