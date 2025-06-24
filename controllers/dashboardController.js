@@ -298,7 +298,6 @@ exports.dashboard_portfolio_put = async (req, res) => {
         });
     }
 };
-
 exports.dashboard_services_get = async (req, res) => {
     try {
         const setting = await Setting.findOne();
@@ -317,6 +316,43 @@ exports.dashboard_services_get = async (req, res) => {
     }
 }
 
+
+exports.dashboard_services_put = async (req, res) => {
+  try {
+    const servicesSection = req.body.servicesSection;
+    if (!servicesSection) {
+      req.flash('error', 'No services data was submitted.');
+      return res.redirect('/dashboard/services');
+    }
+
+    // توحيد البيانات إلى مصفوفة حتى لو كانت خدمة واحدة فقط
+    const formatArray = (field) => {
+      if (!field) return [];
+      if (Array.isArray(field)) return field;
+      return [field];
+    };
+
+    const servicesArray = formatArray(servicesSection).map(service => ({
+      title: service.title || '',
+      icon: service.icon || '',
+      description: service.description || ''
+    }));
+
+    let setting = await Setting.findOne();
+    if (!setting) setting = new Setting();
+
+    setting.servicesSection = servicesArray;
+    await setting.save();
+
+    req.flash('success', 'Services section updated successfully.');
+    res.redirect('/dashboard/services');
+  } catch (error) {
+    console.error('Error updating services section:', error);
+    res.status(500).render('pages/dashboard/errors/404', {
+      error: 'An error occurred while updating the services page.'
+    });
+  }
+};
 
 
 
