@@ -25,6 +25,9 @@ aboutSection: {
   footerContent: String
 }
 ,
+ cv: {
+  fileUrl: String, 
+},
 
   factsSection: [
     {
@@ -120,10 +123,7 @@ aboutSection: {
   mapEmbedUrl: String         // رابط iframe لخريطة Google
 },
 
-  cv: {
-  fileUrl: String,
-  fileName: String
-},
+ 
 
   socialLinks: {
     github: String,

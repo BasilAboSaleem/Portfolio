@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('../../../partials/dashboardPartials/head.ejs') %>
+
+<body id="page-top">
+  <div id="wrapper">
+    <!-- Sidebar -->
+    <%- include('../../../partials/dashboardPartials/sidebar.ejs') %>
+
+    <div id="content-wrapper" class="d-flex flex-column">
+      <div id="content">
+        <!-- Topbar -->
+        <%- include('../../../partials/dashboardPartials/topbar.ejs') %>
+
+        <!-- Flash messages -->
+        <% if (success && success.length > 0) { %>
+          <div class="alert alert-success" id="flash-success">
+            <%= success[0] %>
+          </div>
+        <% } %>
+        <% if (error && error.length > 0) { %>
+          <div class="alert alert-danger" id="flash-error">
+            <%= error[0] %>
+          </div>
+        <% } %>
+
+        <!-- Page Heading -->
+        <h1 class="h3 mb-4 text-gray-800">Manage CV</h1>
+
+        <div class="row justify-content-center">
+          <div class="col-lg-8">
+            <div class="card shadow mb-4">
+              <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">Upload or Update Your CV</h6>
+              </div>
+              <div class="card-body">
+                <form action="/dashboard/cv?_method=PUT" method="POST" enctype="multipart/form-data">
+                  <div class="form-group">
+                    <label for="cvFile">Upload CV (PDF or DOCX)</label>
+                    <input type="file" name="fileUrl" id="cvFile" class="form-control-file" accept=".pdf,.doc,.docx" required>
+                  </div>
+
+                  <% if (setting?.cv?.fileUrl) { %>
+                    <p>Current CV: <a href="<%= setting.cv.fileUrl %>" target="_blank" rel="noopener noreferrer">View / Download</a></p>
+                  <% } %>
+
+                  <button type="submit" class="btn btn-primary mt-3">Save CV</button>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <a class="scroll-to-top rounded" href="#page-top"><i class="fas fa-angle-up"></i></a>
+  <%- include('../../../partials/dashboardPartials/logout.ejs') %>
+
+  <!-- Scripts -->
+  <script src="/vendor/jquery/jquery.min.js"></script>
+  <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
