@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('../../../partials/dashboardPartials/head.ejs') %>
+
+<body id="page-top">
+  <div id="wrapper">
+    <!-- Sidebar -->
+    <%- include('../../../partials/dashboardPartials/sidebar.ejs') %>
+
+    <div id="content-wrapper" class="d-flex flex-column">
+      <div id="content">
+        <!-- Topbar -->
+        <%- include('../../../partials/dashboardPartials/topbar.ejs') %>
+
+        <!-- Flash messages -->
+        <% if (success && success.length > 0) { %>
+          <div class="alert alert-success" id="flash-success">
+            <%= success[0] %>
+          </div>
+        <% } %>
+
+        <% if (error && error.length > 0) { %>
+          <div class="alert alert-danger" id="flash-error">
+            <%= error[0] %>
+          </div>
+        <% } %>
+
+        <!-- Page Heading -->
+        <h1 class="h3 mb-4 text-gray-800">General Settings</h1>
+
+        <div class="row">
+          <div class="col-lg-12">
+            <form action="/dashboard/generalSettings?_method=PUT" method="POST">
+              <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                  <h6 class="m-0 font-weight-bold text-primary">Manage Hero Section</h6>
+                </div>
+                <div class="card-body">
+                  <% const hero = setting?.heroSection || {}; %>
+
+                  <div class="form-group">
+                    <label>Name</label>
+                    <input type="text" name="heroSection[name]" class="form-control" value="<%= hero.name || '' %>" required>
+                  </div>
+
+                  <div class="form-group">
+                    <label>Job Title</label>
+                    <input type="text" name="heroSection[jobTitle]" class="form-control" value="<%= hero.jobTitle || '' %>" required>
+                  </div>
+
+                  <div class="form-group">
+                    <label>Welcome Message</label>
+                    <textarea name="heroSection[welcomeMessage]" class="form-control" rows="3" required><%= hero.welcomeMessage || '' %></textarea>
+                  </div>
+
+                  <div class="form-group">
+                    <label>Background Image URL</label>
+                    <input type="text" name="heroSection[backgroundImage]" class="form-control" value="<%= hero.backgroundImage || '' %>" placeholder="Enter image URL or upload below">
+                  </div>
+
+                  <!-- Optional: if you want file upload instead of URL uncomment below -->
+                  <!--
+                  <div class="form-group">
+                    <label>Upload Background Image</label>
+                    <input type="file" name="heroSectionBackgroundFile" class="form-control-file">
+                  </div>
+                  -->
+                </div>
+              </div>
+
+              <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                  <h6 class="m-0 font-weight-bold text-primary">Manage Social Links</h6>
+                </div>
+                <div class="card-body">
+                  <% const social = setting?.socialLinks || {}; %>
+
+                  <div class="form-group">
+                    <label>GitHub</label>
+                    <input type="url" name="socialLinks[github]" class="form-control" value="<%= social.github || '' %>">
+                  </div>
+
+                  <div class="form-group">
+                    <label>LinkedIn</label>
+                    <input type="url" name="socialLinks[linkedin]" class="form-control" value="<%= social.linkedin || '' %>">
+                  </div>
+
+                  <div class="form-group">
+                    <label>Twitter</label>
+                    <input type="url" name="socialLinks[twitter]" class="form-control" value="<%= social.twitter || '' %>">
+                  </div>
+
+                  <div class="form-group">
+                    <label>Facebook</label>
+                    <input type="url" name="socialLinks[facebook]" class="form-control" value="<%= social.facebook || '' %>">
+                  </div>
+
+                  <div class="form-group">
+                    <label>Instagram</label>
+                    <input type="url" name="socialLinks[instagram]" class="form-control" value="<%= social.instagram || '' %>">
+                  </div>
+
+                  <div class="form-group">
+                    <label>YouTube</label>
+                    <input type="url" name="socialLinks[youtube]" class="form-control" value="<%= social.youtube || '' %>">
+                  </div>
+                </div>
+              </div>
+
+              <button type="submit" class="btn btn-primary mb-4">Save Changes</button>
+            </form>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <a class="scroll-to-top rounded" href="#page-top"><i class="fas fa-angle-up"></i></a>
+  <%- include('../../../partials/dashboardPartials/logout.ejs') %>
+
+  <!-- Scripts -->
+  <script src="/vendor/jquery/jquery.min.js"></script>
+  <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

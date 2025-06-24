@@ -18,4 +18,6 @@ router.get("/dashboard/services", requireAuth, dashboardController.dashboard_ser
 router.put("/dashboard/services", requireAuth, dashboardController.dashboard_services_put);
 router.get("/dashboard/contact", requireAuth, dashboardController.dashboard_contact_get);
 router.put("/dashboard/contact", requireAuth, dashboardController.dashboard_contact_put);
+router.get("/dashboard/generalSettings", requireAuth, dashboardController.dashboard_generalSettings_get);
+router.put("/dashboard/generalSettings", requireAuth,  dashboardController.dashboard_generalSettings_put);
 module.exports = router;
