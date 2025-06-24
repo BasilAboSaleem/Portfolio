@@ -11,6 +11,7 @@ router.put('/dashboard/about', requireAuth,upload.single("profileImage"), dashbo
 router.get("/dashboard/skills", requireAuth, dashboardController.dashboard_skills_get);
 router.delete('/dashboard/skills/:id', requireAuth, dashboardController.dashboard_skills_delete);
 router.get("/dashboard/resume", requireAuth, dashboardController.dashboard_resume_get);
+router.put("/dashboard/resume", requireAuth, dashboardController.dashboard_resume_put);
 
 
 router.get("/dashboard/portfolio", requireAuth, dashboardController.dashboard_portfolio_get);

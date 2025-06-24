@@ -25,7 +25,7 @@
 
           <div class="row">
             <div class="col-lg-12">
-              <form action="/dashboard/resume" method="POST">
+              <form action="/dashboard/resume?_method=PUT" method="POST">
                 <!-- Summary -->
                 <div class="card shadow mb-4">
                   <div class="card-header bg-primary text-white">Summary</div>
@@ -33,29 +33,60 @@
                     <div class="form-row">
                       <div class="form-group col-md-6">
                         <label>Name</label>
-                        <input type="text" name="summary[name]" class="form-control" placeholder="Brandon Johnson">
+                        <input
+                          type="text"
+                          name="resumeSection[summary][name]"
+                          class="form-control"
+                          value="<%= setting.resumeSection?.summary?.name || '' %>"
+                          placeholder="Brandon Johnson"
+                        />
                       </div>
                       <div class="form-group col-md-6">
                         <label>Title</label>
-                        <input type="text" name="summary[title]" class="form-control" placeholder="Graphic Designer">
+                        <input
+                          type="text"
+                          name="resumeSection[summary][title]"
+                          class="form-control"
+                          value="<%= setting.resumeSection?.summary?.title || '' %>"
+                          placeholder="Graphic Designer"
+                        />
                       </div>
                     </div>
                     <div class="form-group">
                       <label>Description</label>
-                      <textarea name="summary[description]" class="form-control" rows="3"></textarea>
+                      <textarea
+                        name="resumeSection[summary][description]"
+                        class="form-control"
+                        rows="3"
+                      ><%= setting.resumeSection?.summary?.description || '' %></textarea>
                     </div>
                     <div class="form-row">
                       <div class="form-group col-md-6">
                         <label>Address</label>
-                        <input type="text" name="summary[address]" class="form-control">
+                        <input
+                          type="text"
+                          name="resumeSection[summary][address]"
+                          class="form-control"
+                          value="<%= setting.resumeSection?.summary?.address || '' %>"
+                        />
                       </div>
                       <div class="form-group col-md-3">
                         <label>Phone</label>
-                        <input type="text" name="summary[phone]" class="form-control">
+                        <input
+                          type="text"
+                          name="resumeSection[summary][phone]"
+                          class="form-control"
+                          value="<%= setting.resumeSection?.summary?.phone || '' %>"
+                        />
                       </div>
                       <div class="form-group col-md-3">
                         <label>Email</label>
-                        <input type="email" name="summary[email]" class="form-control">
+                        <input
+                          type="email"
+                          name="resumeSection[summary][email]"
+                          class="form-control"
+                          value="<%= setting.resumeSection?.summary?.email || '' %>"
+                        />
                       </div>
                     </div>
                   </div>
@@ -63,27 +94,166 @@
 
                 <!-- Education -->
                 <div class="card shadow mb-4">
-                  <div class="card-header d-flex justify-content-between align-items-center">
+                  <div
+                    class="card-header d-flex justify-content-between align-items-center"
+                  >
                     <span>Education</span>
-                    <button type="button" class="btn btn-sm btn-secondary" id="add-education">+ Add Education</button>
+                    <button
+                      type="button"
+                      class="btn btn-sm btn-secondary"
+                      id="add-education"
+                    >
+                      + Add Education
+                    </button>
                   </div>
                   <div class="card-body" id="education-container">
-                    <!-- Education items added dynamically -->
+                    <% if (
+                      setting.resumeSection?.education &&
+                      setting.resumeSection.education.length > 0
+                    ) { %>
+                      <% setting.resumeSection.education.forEach((edu, index) => { %>
+                        <div
+                          class="border p-3 mb-3 position-relative education-item"
+                        >
+                          <button
+                            type="button"
+                            class="btn btn-danger btn-sm position-absolute"
+                            style="top:10px; right:10px;"
+                            onclick="this.parentElement.remove()"
+                          >
+                            X
+                          </button>
+                          <div class="form-row">
+                            <div class="form-group col-md-6">
+                              <label>Degree</label>
+                              <input
+                                type="text"
+                                name="resumeSection[education][<%= index %>][degree]"
+                                class="form-control"
+                                value="<%= edu.degree || '' %>"
+                              />
+                            </div>
+                            <div class="form-group col-md-6">
+                              <label>Field</label>
+                              <input
+                                type="text"
+                                name="resumeSection[education][<%= index %>][field]"
+                                class="form-control"
+                                value="<%= edu.field || '' %>"
+                              />
+                            </div>
+                          </div>
+                          <div class="form-row">
+                            <div class="form-group col-md-6">
+                              <label>Year</label>
+                              <input
+                                type="text"
+                                name="resumeSection[education][<%= index %>][year]"
+                                class="form-control"
+                                value="<%= edu.year || '' %>"
+                              />
+                            </div>
+                            <div class="form-group col-md-6">
+                              <label>Institution</label>
+                              <input
+                                type="text"
+                                name="resumeSection[education][<%= index %>][institution]"
+                                class="form-control"
+                                value="<%= edu.institution || '' %>"
+                              />
+                            </div>
+                          </div>
+                          <div class="form-group">
+                            <label>Details</label>
+                            <textarea
+                              name="resumeSection[education][<%= index %>][details]"
+                              class="form-control"
+                              rows="2"
+                            ><%= edu.details || '' %></textarea>
+                          </div>
+                        </div>
+                      <% }); %>
+                    <% } %>
                   </div>
                 </div>
 
                 <!-- Experience -->
                 <div class="card shadow mb-4">
-                  <div class="card-header d-flex justify-content-between align-items-center">
+                  <div
+                    class="card-header d-flex justify-content-between align-items-center"
+                  >
                     <span>Professional Experience</span>
-                    <button type="button" class="btn btn-sm btn-secondary" id="add-experience">+ Add Experience</button>
+                    <button
+                      type="button"
+                      class="btn btn-sm btn-secondary"
+                      id="add-experience"
+                    >
+                      + Add Experience
+                    </button>
                   </div>
                   <div class="card-body" id="experience-container">
-                    <!-- Experience items added dynamically -->
+                    <% if (
+                      setting.resumeSection?.experience &&
+                      setting.resumeSection.experience.length > 0
+                    ) { %>
+                      <% setting.resumeSection.experience.forEach((exp, index) => { %>
+                        <div
+                          class="border p-3 mb-3 position-relative experience-item"
+                        >
+                          <button
+                            type="button"
+                            class="btn btn-danger btn-sm position-absolute"
+                            style="top:10px; right:10px;"
+                            onclick="this.parentElement.remove()"
+                          >
+                            X
+                          </button>
+                          <div class="form-row">
+                            <div class="form-group col-md-6">
+                              <label>Job Title</label>
+                              <input
+                                type="text"
+                                name="resumeSection[experience][<%= index %>][title]"
+                                class="form-control"
+                                value="<%= exp.title || '' %>"
+                              />
+                            </div>
+                            <div class="form-group col-md-6">
+                              <label>Period</label>
+                              <input
+                                type="text"
+                                name="resumeSection[experience][<%= index %>][period]"
+                                class="form-control"
+                                value="<%= exp.period || '' %>"
+                              />
+                            </div>
+                          </div>
+                          <div class="form-group">
+                            <label>Company</label>
+                            <input
+                              type="text"
+                              name="resumeSection[experience][<%= index %>][company]"
+                              class="form-control"
+                              value="<%= exp.company || '' %>"
+                            />
+                          </div>
+                          <div class="form-group">
+                            <label>Responsibilities (one per line)</label>
+                            <textarea
+                              name="resumeSection[experience][<%= index %>][responsibilities]"
+                              class="form-control"
+                              rows="3"
+                            ><%= Array.isArray(exp.responsibilities) ? exp.responsibilities.join('\\n') : (exp.responsibilities || '') %></textarea>
+                          </div>
+                        </div>
+                      <% }); %>
+                    <% } %>
                   </div>
                 </div>
 
-                <button type="submit" class="btn btn-primary">Save Resume</button>
+                <button type="submit" class="btn btn-primary">
+                  Save Resume
+                </button>
               </form>
             </div>
           </div>
@@ -94,59 +264,111 @@
       </div>
     </div>
 
-    <a class="scroll-to-top rounded" href="#page-top"><i class="fas fa-angle-up"></i></a>
+    <a class="scroll-to-top rounded" href="#page-top"
+      ><i class="fas fa-angle-up"></i
+    ></a>
 
-    <!-- Templates -->
+    <!-- Templates (hidden for cloning) -->
     <template id="education-template">
       <div class="border p-3 mb-3 position-relative education-item">
-        <button type="button" class="btn btn-danger btn-sm position-absolute" style="top:10px; right:10px;" onclick="this.parentElement.remove()">X</button>
+        <button
+          type="button"
+          class="btn btn-danger btn-sm position-absolute"
+          style="top:10px; right:10px;"
+          onclick="this.parentElement.remove()"
+        >
+          X
+        </button>
         <div class="form-row">
           <div class="form-group col-md-6">
             <label>Degree</label>
-            <input type="text" name="education[][degree]" class="form-control">
+            <input
+              type="text"
+              name="resumeSection[education][__INDEX__][degree]"
+              class="form-control"
+            />
           </div>
           <div class="form-group col-md-6">
             <label>Field</label>
-            <input type="text" name="education[][field]" class="form-control">
+            <input
+              type="text"
+              name="resumeSection[education][__INDEX__][field]"
+              class="form-control"
+            />
           </div>
         </div>
         <div class="form-row">
           <div class="form-group col-md-6">
             <label>Year</label>
-            <input type="text" name="education[][year]" class="form-control">
+            <input
+              type="text"
+              name="resumeSection[education][__INDEX__][year]"
+              class="form-control"
+            />
           </div>
           <div class="form-group col-md-6">
             <label>Institution</label>
-            <input type="text" name="education[][institution]" class="form-control">
+            <input
+              type="text"
+              name="resumeSection[education][__INDEX__][institution]"
+              class="form-control"
+            />
           </div>
         </div>
         <div class="form-group">
           <label>Details</label>
-          <textarea name="education[][details]" class="form-control" rows="2"></textarea>
+          <textarea
+            name="resumeSection[education][__INDEX__][details]"
+            class="form-control"
+            rows="2"
+          ></textarea>
         </div>
       </div>
     </template>
 
     <template id="experience-template">
       <div class="border p-3 mb-3 position-relative experience-item">
-        <button type="button" class="btn btn-danger btn-sm position-absolute" style="top:10px; right:10px;" onclick="this.parentElement.remove()">X</button>
+        <button
+          type="button"
+          class="btn btn-danger btn-sm position-absolute"
+          style="top:10px; right:10px;"
+          onclick="this.parentElement.remove()"
+        >
+          X
+        </button>
         <div class="form-row">
           <div class="form-group col-md-6">
             <label>Job Title</label>
-            <input type="text" name="experience[][title]" class="form-control">
+            <input
+              type="text"
+              name="resumeSection[experience][__INDEX__][title]"
+              class="form-control"
+            />
           </div>
           <div class="form-group col-md-6">
             <label>Period</label>
-            <input type="text" name="experience[][period]" class="form-control">
+            <input
+              type="text"
+              name="resumeSection[experience][__INDEX__][period]"
+              class="form-control"
+            />
           </div>
         </div>
         <div class="form-group">
           <label>Company</label>
-          <input type="text" name="experience[][company]" class="form-control">
+          <input
+            type="text"
+            name="resumeSection[experience][__INDEX__][company]"
+            class="form-control"
+          />
         </div>
         <div class="form-group">
           <label>Responsibilities (one per line)</label>
-          <textarea name="experience[][responsibilities]" class="form-control" rows="3"></textarea>
+          <textarea
+            name="resumeSection[experience][__INDEX__][responsibilities]"
+            class="form-control"
+            rows="3"
+          ></textarea>
         </div>
       </div>
     </template>
@@ -156,15 +378,37 @@
     <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
     <script>
-      document.getElementById("add-education").addEventListener("click", function () {
-        const template = document.getElementById("education-template").content.cloneNode(true);
-        document.getElementById("education-container").appendChild(template);
-      });
+      // دالة لتحديث أسماء الحقول مع الـ index الصحيح
+      function updateIndices(containerSelector, baseName) {
+        const container = document.querySelector(containerSelector);
+        const items = container.children;
+        for (let i = 0; i < items.length; i++) {
+          const inputs = items[i].querySelectorAll("input, textarea");
+          inputs.forEach((input) => {
+            input.name = input.name.replace(/__INDEX__/, i);
+          });
+        }
+      }
 
-      document.getElementById("add-experience").addEventListener("click", function () {
-        const template = document.getElementById("experience-template").content.cloneNode(true);
-        document.getElementById("experience-container").appendChild(template);
-      });
+      document
+        .getElementById("add-education")
+        .addEventListener("click", function () {
+          const template = document
+            .getElementById("education-template")
+            .content.cloneNode(true);
+          document.getElementById("education-container").appendChild(template);
+          updateIndices("#education-container", "resumeSection[education]");
+        });
+
+      document
+        .getElementById("add-experience")
+        .addEventListener("click", function () {
+          const template = document
+            .getElementById("experience-template")
+            .content.cloneNode(true);
+          document.getElementById("experience-container").appendChild(template);
+          updateIndices("#experience-container", "resumeSection[experience]");
+        });
     </script>
   </body>
 </html>
