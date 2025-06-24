@@ -56,7 +56,7 @@
                   <% const filters = setting?.portfolioSection?.filters || []; %>
                   <% filters.forEach((filter, index) => { %>
                     <div class="filter-item border p-3 mb-3 rounded position-relative" id="filter-<%= index %>">
-                      <button type="button" class="btn btn-danger btn-sm position-absolute" style="top:10px; right:10px;" onclick="removeElement('filter-<%= index %>')">X</button>
+                      <button type="button" class="btn btn-danger btn-sm position-absolute" style="top:10px; right:10px;" onclick="removeElement('filter-<%= index %>'); updateIndices('#filters-container', 'portfolioSection[filters]')">X</button>
                       <div class="form-row">
                         <div class="form-group col-md-6">
                           <label>Filter Name</label>
@@ -81,7 +81,7 @@
                   <% const items = setting?.portfolioSection?.items || []; %>
                   <% items.forEach((item, index) => { %>
                     <div class="portfolio-item border p-3 mb-3 rounded position-relative" id="item-<%= index %>">
-                      <button type="button" class="btn btn-danger btn-sm position-absolute" style="top:10px; right:10px;" onclick="removeElement('item-<%= index %>')">X</button>
+                      <button type="button" class="btn btn-danger btn-sm position-absolute" style="top:10px; right:10px;" onclick="removeElement('item-<%= index %>'); updateIndices('#items-container', 'portfolioSection[items]')">X</button>
                       <div class="form-row">
                         <div class="form-group col-md-6">
                           <label>Title</label>
@@ -149,12 +149,32 @@
       if(el) el.remove();
     }
 
+    // تحديث أسماء الحقول مع الفهارس الجديدة بعد إضافة أو حذف عناصر
+    function updateIndices(containerSelector, baseName) {
+      const container = document.querySelector(containerSelector);
+      const items = container.children;
+      for (let i = 0; i < items.length; i++) {
+        const inputs = items[i].querySelectorAll("input, textarea");
+        inputs.forEach((input) => {
+          // استبدال الفهرس __INDEX__ أو الرقم الحالي بالرقم i الجديد
+          input.name = input.name.replace(/\[\d+\]/, `[${i}]`);
+        });
+        // تحديث id الخاص بالعنصر للحذف الصحيح
+        items[i].id = items[i].id.replace(/\-\d+$/, `-${i}`);
+        // تحديث زر الحذف ليحذف العنصر حسب الـ id الجديد
+        const btn = items[i].querySelector("button.btn-danger");
+        if(btn){
+          btn.setAttribute("onclick", `removeElement('${items[i].id}'); updateIndices('${containerSelector}', '${baseName}')`);
+        }
+      }
+    }
+
     document.getElementById("add-filter").addEventListener("click", function() {
       const container = document.getElementById("filters-container");
       const index = container.children.length;
       const template = `
         <div class="filter-item border p-3 mb-3 rounded position-relative" id="filter-${index}">
-          <button type="button" class="btn btn-danger btn-sm position-absolute" style="top:10px; right:10px;" onclick="removeElement('filter-${index}')">X</button>
+          <button type="button" class="btn btn-danger btn-sm position-absolute" style="top:10px; right:10px;" onclick="removeElement('filter-${index}'); updateIndices('#filters-container', 'portfolioSection[filters]')">X</button>
           <div class="form-row">
             <div class="form-group col-md-6">
               <label>Filter Name</label>
@@ -174,7 +194,7 @@
       const index = container.children.length;
       const template = `
         <div class="portfolio-item border p-3 mb-3 rounded position-relative" id="item-${index}">
-          <button type="button" class="btn btn-danger btn-sm position-absolute" style="top:10px; right:10px;" onclick="removeElement('item-${index}')">X</button>
+          <button type="button" class="btn btn-danger btn-sm position-absolute" style="top:10px; right:10px;" onclick="removeElement('item-${index}'); updateIndices('#items-container', 'portfolioSection[items]')">X</button>
           <div class="form-row">
             <div class="form-group col-md-6">
               <label>Title</label>
