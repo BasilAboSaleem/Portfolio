@@ -80,6 +80,7 @@ exports.dashboard_about_put = async (req, res) => {
         res.status(500).render('pages/dashboard/errors/404', { error: 'An error occurred while updating the about page.' });
     }
 }
+
 exports.dashboard_cv_get = async (req, res) => {
     try {
         const setting = await Setting.findOne();
@@ -96,7 +97,6 @@ exports.dashboard_cv_get = async (req, res) => {
         res.status(500).render('pages/dashboard/errors/404', { error: 'An error occurred while fetching the CV page.' });
     }
 };
-
 exports.dashboard_cv_put = async (req, res) => {
   try {
     if (req.file) {
@@ -128,7 +128,6 @@ exports.dashboard_cv_put = async (req, res) => {
     });
   }
 };
-
 
 exports.dashboard_skills_get = async (req, res) => {
     try{
@@ -208,6 +207,7 @@ exports.dashboard_skills_delete = async (req, res) => {
     res.status(500).json({ error: 'An error occurred while deleting the skill.' });
   }
 };
+
 exports.dashboard_resume_get = async (req, res) => {
   try{
     const setting = await Setting.findOne();
@@ -283,6 +283,7 @@ exports.dashboard_resume_put = async (req, res) => {
     });
   }
 };
+
 exports.dashboard_portfolio_get = async (req, res) => {
     try {
         const setting = await Setting.findOne();
@@ -348,6 +349,7 @@ exports.dashboard_portfolio_put = async (req, res) => {
         });
     }
 };
+
 exports.dashboard_services_get = async (req, res) => {
     try {
         const setting = await Setting.findOne();
@@ -365,7 +367,6 @@ exports.dashboard_services_get = async (req, res) => {
         res.status(500).render('pages/dashboard/errors/404', { error: 'An error occurred while fetching the services page.' });
     }
 }
-
 exports.dashboard_services_put = async (req, res) => {
   try {
     const servicesSection = req.body.servicesSection;
@@ -402,6 +403,7 @@ exports.dashboard_services_put = async (req, res) => {
     });
   }
 };
+
 exports.dashboard_contact_get = async (req, res) => {
     try {
         const setting = await Setting.findOne();
@@ -448,6 +450,7 @@ exports.dashboard_contact_put = async (req, res) => {
     });
   }
 };
+
 exports.dashboard_generalSettings_get = async (req, res) => {
     try {
         const setting = await Setting.findOne();
