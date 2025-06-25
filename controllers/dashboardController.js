@@ -175,38 +175,7 @@ exports.dashboard_skills_put = async (req, res) => {
       });
   }
 };
-exports.dashboard_skills_delete = async (req, res) => {
-  try {
-    const skillId = req.params.id;
 
-    const setting = await Setting.findOne();
-    if (!setting) {
-      req.flash('error', 'Settings not found.');
-      return res.redirect('/dashboard/skills');
-    }
-
-    
-    const originalLength = setting.skillsSection.length;
-    setting.skillsSection = setting.skillsSection.filter(
-      (skill) => skill._id.toString() !== skillId
-    );
-
-    if (setting.skillsSection.length === originalLength) {
-      req.flash('error', 'Skill not found.');
-      return res.redirect('/dashboard/skills');
-    }
-
-    // إعلام Mongoose بأن المصفوفة تغيرت
-    setting.markModified('skillsSection');
-    await setting.save();
-
-    req.flash('success', 'Skill deleted successfully.');
-    res.status(200).json({ message: 'Skill deleted successfully.' }); // إرسال رد JSON بنجاح الحذف
-  } catch (error) {
-    console.error('Error deleting skill:', error);
-    res.status(500).json({ error: 'An error occurred while deleting the skill.' });
-  }
-};
 
 exports.dashboard_resume_get = async (req, res) => {
   try{
