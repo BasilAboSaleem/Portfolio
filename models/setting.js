@@ -10,6 +10,7 @@ const settingSchema = new mongoose.Schema({
 
 aboutSection: {
   mainTitle: String,      // "About Me"
+  headerContent: String, // "Who I am"
   profession: String,     // "UI/UX Designer & Web Developer"
   description: String,    // الفقرة الرئيسية 
   profileImage: String,
@@ -21,7 +22,7 @@ aboutSection: {
   degree: String,
   email: String,
   freelance: String,
-  headerContent: String,
+  
   footerContent: String
 }
 ,
@@ -91,7 +92,6 @@ aboutSection: {
         categoryClass: { type: String, required: true }, // filter-app, filter-books...
         imageUrl: { type: String, required: true },       // الصورة المصغرة (Thumbnail)
         description: { type: String },
-        previewImage: { type: String },                  // الصورة عند الضغط
         previewTitle: { type: String },
         detailsLink: { type: String },                   // رابط التفاصيل
         galleryGroup: { type: String },                  // portfolio-gallery-app

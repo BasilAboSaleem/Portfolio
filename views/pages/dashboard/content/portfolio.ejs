@@ -4,33 +4,26 @@
 
 <body id="page-top">
   <div id="wrapper">
-    <!-- Sidebar -->
     <%- include('../../../partials/dashboardPartials/sidebar.ejs') %>
 
     <div id="content-wrapper" class="d-flex flex-column">
       <div id="content">
-        <!-- Topbar -->
         <%- include('../../../partials/dashboardPartials/topbar.ejs') %>
 
-        <!-- Flash messages -->
         <% if (success && success.length > 0) { %>
-          <div class="alert alert-success" id="flash-success">
-            <%= success[0] %>
-          </div>
-        <% } %>
-        
-        <% if (error && error.length > 0) { %>
-          <div class="alert alert-danger" id="flash-error">
-            <%= error[0] %>
-          </div>
+          <div class="alert alert-success" id="flash-success"><%= success[0] %></div>
         <% } %>
 
-        <!-- Page Heading -->
+        <% if (error && error.length > 0) { %>
+          <div class="alert alert-danger" id="flash-error"><%= error[0] %></div>
+        <% } %>
+
         <h1 class="h3 mb-4 text-gray-800">Portfolio Settings</h1>
 
         <div class="row">
           <div class="col-lg-12">
-            <form action="/dashboard/portfolio?_method=PUT" method="POST">
+            <form action="/dashboard/portfolio?_method=PUT" method="POST" enctype="multipart/form-data">
+              <!-- Section Title & Description -->
               <div class="card shadow mb-4">
                 <div class="card-header py-3">
                   <h6 class="m-0 font-weight-bold text-primary">Section Title & Description</h6>
@@ -47,6 +40,7 @@
                 </div>
               </div>
 
+              <!-- Filters -->
               <div class="card shadow mb-4">
                 <div class="card-header py-3 d-flex justify-content-between align-items-center">
                   <h6 class="m-0 font-weight-bold text-primary">Filters</h6>
@@ -72,6 +66,7 @@
                 </div>
               </div>
 
+              <!-- Portfolio Items -->
               <div class="card shadow mb-4">
                 <div class="card-header py-3 d-flex justify-content-between align-items-center">
                   <h6 class="m-0 font-weight-bold text-primary">Portfolio Items</h6>
@@ -92,24 +87,29 @@
                           <input type="text" name="portfolioSection[items][<%= index %>][categoryClass]" class="form-control" value="<%= item.categoryClass %>" required>
                         </div>
                       </div>
+
                       <div class="form-group">
-                        <label>Image URL</label>
-                        <input type="text" name="portfolioSection[items][<%= index %>][imageUrl]" class="form-control" value="<%= item.imageUrl %>" required>
+                        <% if (item.imageUrl) { %>
+                       <div class="mb-2">
+                       <img src="<%= item.imageUrl %>" alt="Current Image" class="img-thumbnail" style="max-height: 150px;">
                       </div>
+                         <% } %>
+
+                        <label>Select Image</label>
+                        <input type="file" name="portfolioSection[items][<%= index %>][imageFile]" class="form-control-file" accept="image/*" >
+                      </div>
+
                       <div class="form-group">
                         <label>Description</label>
                         <textarea name="portfolioSection[items][<%= index %>][description]" class="form-control" rows="2"><%= item.description %></textarea>
                       </div>
+
                       <div class="form-row">
-                        <div class="form-group col-md-4">
-                          <label>Preview Image URL</label>
-                          <input type="text" name="portfolioSection[items][<%= index %>][previewImage]" class="form-control" value="<%= item.previewImage %>">
-                        </div>
-                        <div class="form-group col-md-4">
+                        <div class="form-group col-md-6">
                           <label>Preview Title</label>
                           <input type="text" name="portfolioSection[items][<%= index %>][previewTitle]" class="form-control" value="<%= item.previewTitle %>">
                         </div>
-                        <div class="form-group col-md-4">
+                        <div class="form-group col-md-6">
                           <label>Gallery Group</label>
                           <input type="text" name="portfolioSection[items][<%= index %>][galleryGroup]" class="form-control" value="<%= item.galleryGroup %>">
                         </div>
@@ -131,7 +131,6 @@
             </form>
           </div>
         </div>
-
       </div>
     </div>
   </div>
@@ -146,30 +145,26 @@
   <script>
     function removeElement(id) {
       const el = document.getElementById(id);
-      if(el) el.remove();
+      if (el) el.remove();
     }
 
-    // تحديث أسماء الحقول مع الفهارس الجديدة بعد إضافة أو حذف عناصر
     function updateIndices(containerSelector, baseName) {
       const container = document.querySelector(containerSelector);
       const items = container.children;
       for (let i = 0; i < items.length; i++) {
         const inputs = items[i].querySelectorAll("input, textarea");
         inputs.forEach((input) => {
-          // استبدال الفهرس __INDEX__ أو الرقم الحالي بالرقم i الجديد
           input.name = input.name.replace(/\[\d+\]/, `[${i}]`);
         });
-        // تحديث id الخاص بالعنصر للحذف الصحيح
         items[i].id = items[i].id.replace(/\-\d+$/, `-${i}`);
-        // تحديث زر الحذف ليحذف العنصر حسب الـ id الجديد
         const btn = items[i].querySelector("button.btn-danger");
-        if(btn){
+        if (btn) {
           btn.setAttribute("onclick", `removeElement('${items[i].id}'); updateIndices('${containerSelector}', '${baseName}')`);
         }
       }
     }
 
-    document.getElementById("add-filter").addEventListener("click", function() {
+    document.getElementById("add-filter").addEventListener("click", function () {
       const container = document.getElementById("filters-container");
       const index = container.children.length;
       const template = `
@@ -189,7 +184,7 @@
       container.insertAdjacentHTML('beforeend', template);
     });
 
-    document.getElementById("add-item").addEventListener("click", function() {
+    document.getElementById("add-item").addEventListener("click", function () {
       const container = document.getElementById("items-container");
       const index = container.children.length;
       const template = `
@@ -206,26 +201,20 @@
             </div>
           </div>
           <div class="form-group">
-            <label>Image URL</label>
-            <input type="text" name="portfolioSection[items][${index}][imageUrl]" class="form-control" required>
+            <label>Select Image</label>
+            <input type="file" name="portfolioSection[items][${index}][imageFile]" class="form-control-file" accept="image/*" required>
           </div>
           <div class="form-group">
             <label>Description</label>
             <textarea name="portfolioSection[items][${index}][description]" class="form-control" rows="2"></textarea>
           </div>
-          <div class="form-row">
-            <div class="form-group col-md-4">
-              <label>Preview Image URL</label>
-              <input type="text" name="portfolioSection[items][${index}][previewImage]" class="form-control">
-            </div>
-            <div class="form-group col-md-4">
-              <label>Preview Title</label>
-              <input type="text" name="portfolioSection[items][${index}][previewTitle]" class="form-control">
-            </div>
-            <div class="form-group col-md-4">
-              <label>Gallery Group</label>
-              <input type="text" name="portfolioSection[items][${index}][galleryGroup]" class="form-control">
-            </div>
+          <div class="form-group col-md-6">
+            <label>Preview Title</label>
+            <input type="text" name="portfolioSection[items][${index}][previewTitle]" class="form-control">
+          </div>
+          <div class="form-group col-md-6">
+            <label>Gallery Group</label>
+            <input type="text" name="portfolioSection[items][${index}][galleryGroup]" class="form-control">
           </div>
           <div class="form-group">
             <label>Details Link</label>
@@ -239,6 +228,5 @@
       container.insertAdjacentHTML('beforeend', template);
     });
   </script>
-
 </body>
 </html>

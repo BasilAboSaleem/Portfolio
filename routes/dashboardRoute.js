@@ -11,10 +11,11 @@ router.put('/dashboard/about', requireAuth,upload.single("profileImage"), dashbo
 router.get("/dashboard/cv", requireAuth, dashboardController.dashboard_cv_get);
 router.put("/dashboard/cv", requireAuth, upload.single("fileUrl"), dashboardController.dashboard_cv_put);
 router.get("/dashboard/skills", requireAuth, dashboardController.dashboard_skills_get);
+router.put("/dashboard/skills", requireAuth, dashboardController.dashboard_skills_put);
 router.get("/dashboard/resume", requireAuth, dashboardController.dashboard_resume_get);
 router.put("/dashboard/resume", requireAuth, dashboardController.dashboard_resume_put);
 router.get("/dashboard/portfolio", requireAuth, dashboardController.dashboard_portfolio_get);
-router.put("/dashboard/portfolio", requireAuth, dashboardController.dashboard_portfolio_put);
+router.put("/dashboard/portfolio", requireAuth, upload.any(), dashboardController.dashboard_portfolio_put);
 router.get("/dashboard/services", requireAuth, dashboardController.dashboard_services_get);
 router.put("/dashboard/services", requireAuth, dashboardController.dashboard_services_put);
 router.get("/dashboard/contact", requireAuth, dashboardController.dashboard_contact_get);
