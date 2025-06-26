@@ -477,11 +477,30 @@ exports.dashboard_generalSettings_put = async (req, res) => {
     let setting = await Setting.findOne();
     if (!setting) setting = new Setting();
 
+    let backgroundImageUrl = heroSection.backgroundImage || setting.heroSection?.backgroundImage || '';
+
+    // إذا تم رفع ملف جديد
+    if (req.file) {
+      // ارفع الصورة للكلاودنري
+      const result = await cloudinary.uploader.upload(req.file.path, {
+        folder: 'portfolio/hero_images',
+        use_filename: true,
+        unique_filename: false,
+        overwrite: true,
+      });
+
+      // استبدل رابط الخلفية برابط الصورة المرفوعة
+      backgroundImageUrl = result.secure_url;
+
+      // حذف الملف المؤقت من السيرفر بعد الرفع
+      fs.unlinkSync(req.file.path);
+    }
+
     setting.heroSection = {
       name: heroSection.name || setting.heroSection?.name || '',
       jobTitle: heroSection.jobTitle || setting.heroSection?.jobTitle || '',
       welcomeMessage: heroSection.welcomeMessage || setting.heroSection?.welcomeMessage || '',
-      backgroundImage: heroSection.backgroundImage || setting.heroSection?.backgroundImage || '',
+      backgroundImage: backgroundImageUrl,
     };
 
     setting.socialLinks = {
@@ -504,8 +523,3 @@ exports.dashboard_generalSettings_put = async (req, res) => {
     });
   }
 };
-
-
-
-
-
