@@ -1,21 +1,29 @@
 const express = require("express");
+const app = express();
 require('dotenv').config();
-
+const mongoose = require("mongoose");
 const session = require('express-session');
 const flash = require('connect-flash');
 const MongoStore = require('connect-mongo');
-const app = express();
-const port = process.env.PORT || 3001;
-const mongoose = require("mongoose");
+const methodOverride = require('method-override');
+const path = require("path");
+const livereload = require("livereload");
+const connectLivereload = require("connect-livereload");
+const cookieParser = require('cookie-parser');
+
+// Body parsers
 app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
+
+// Static + views
 app.set("view engine", "ejs");
 app.use(express.static("public"));
-var methodOverride = require('method-override')
-app.use(methodOverride('_method'))
 
-// إعداد الـ session
+// Extra middleware
+app.use(cookieParser());
+app.use(methodOverride('_method'));
 
-
+// Session & flash
 app.use(session({
   secret: 'your-secret-key',
   resave: false,
@@ -28,57 +36,48 @@ app.use(session({
     httpOnly: true,
     secure: process.env.NODE_ENV === 'production',
     sameSite: 'strict',
-    maxAge: 1000 * 60 * 60 * 24 // يوم واحد
+    maxAge: 1000 * 60 * 60 * 24
   }
 }));
-// إعداد flash
 app.use(flash());
+
+// Expose flash + setting globally
+app.use(require('./middlewares/authMiddlewares').checkIfUser);
+app.use((req, res, next) => {
+  res.locals.success = req.flash('success');
+  res.locals.error = req.flash('error');
+  next();
+});
+const Setting = require('./models/setting');
+app.use(async (req, res, next) => {
+  try {
+    res.locals.setting = await Setting.findOne();
+    next();
+  } catch (err) {
+    console.error("Error loading settings:", err);
+    res.locals.setting = null;
+    next();
+  }
+});
+
+// Auto refresh
+const liveReloadServer = livereload.createServer();
+liveReloadServer.watch(path.join(__dirname, "public"));
+app.use(connectLivereload());
+liveReloadServer.server.once("connection", () => {
+  setTimeout(() => liveReloadServer.refresh("/"), 100);
+});
+
+// Routers
 const coreRoute = require('./routes/coreRoute');
 const authRoute = require('./routes/authRoute');
 const dashboardRoute = require('./routes/dashboardRoute');
-const { checkIfUser, requireAuth } = require('./middlewares/authMiddlewares');
+app.use(coreRoute);
+app.use(authRoute);
+app.use(dashboardRoute);
 
-var cookieParser = require('cookie-parser')
-app.use(cookieParser())
-app.use(express.json())
-
-// Auto refresh
-const path = require("path");
-const livereload = require("livereload");
-const liveReloadServer = livereload.createServer();
-liveReloadServer.watch(path.join(__dirname, "public"));
-
-const connectLivereload = require("connect-livereload");
-app.use(connectLivereload());
-
-
-liveReloadServer.server.once("connection", () => {
-  setTimeout(() => {
-    liveReloadServer.refresh("/");
-  }, 100);
-});
-
-//الاتصال بقاعدة البيانات
-mongoose
-.connect(
-  process.env.MONGODB_URL
-)
-  .then(() => {
-    app.listen(port, () => {
-      console.log(`http://localhost:${port}/`);
-    });
-  })
-  .catch((err) => {
-    console.log(err);
-  });
-
-app.use(checkIfUser);
- app.use((req, res, next) => {
-    res.locals.success = req.flash('success');
-    res.locals.error = req.flash('error');
-    next();
-  });
-
- app.use(coreRoute);
-  app.use(authRoute);
-  app.use(dashboardRoute);
+// Connect DB + Start
+const port = process.env.PORT || 3001;
+mongoose.connect(process.env.MONGODB_URL)
+  .then(() => app.listen(port, () => console.log(`http://localhost:${port}/`)))
+  .catch(err => console.log(err));

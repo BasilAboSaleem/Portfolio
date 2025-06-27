@@ -1,10 +1,26 @@
-  <section id="hero" class="hero section dark-background">
+   <!-- Flash messages -->
+        <% if (success && success.length > 0) { %>
+          <div class="alert alert-success" id="flash-success">
+            <%= success[0] %>
+          </div>
+        <% } %>
 
-      <img src="assets/img/hero-bg.jpg" alt="" data-aos="fade-in" class="">
+        <% if (error && error.length > 0) { %>
+          <div class="alert alert-danger" id="flash-error">
+            <%= error[0] %>
+          </div>
+        <% } %>
+ <section id="hero" class="hero section dark-background">
+
+      <img src="<%= setting.heroSection.backgroundImage %>" alt="" data-aos="fade-in" class="">
 
       <div class="container" data-aos="fade-up" data-aos-delay="100">
-        <h2>Alex Smith</h2>
-        <p>I'm <span class="typed" data-typed-items="Designer, Developer, Freelancer, Photographer">Designer</span><span class="typed-cursor typed-cursor--blink" aria-hidden="true"></span><span class="typed-cursor typed-cursor--blink" aria-hidden="true"></span></p>
+        <h2><%= setting.heroSection.name %></h2>
+<p>
+  <%= setting.heroSection.welcomeMessage %>
+  <span class="typed" data-typed-items="<%= setting.heroSection.jobTitle %>"></span>
+  <span class="typed-cursor typed-cursor--blink" aria-hidden="true"></span>
+</p> 
       </div>
 
-    </section>
+    </section> 

@@ -1,28 +1,17 @@
 <section id="skills" class="skills section light-background">
   <div class="container section-title" data-aos="fade-up">
-    <h2>Skills</h2>
+    <h2>My Skills</h2>
     <p>Technologies I work with:</p>
   </div>
 
-  <div class="container" data-aos="fade-up" data-aos-delay="100">
-    <div class="row text-center">
+<div class="container" data-aos="fade-up" data-aos-delay="100">
+  <div class="row text-center">
+    <% setting.skillsSection.forEach(skill => { %>
       <div class="col-4 col-md-3 col-lg-2 mb-4">
-        <i class="fab fa-html5 fa-2x text-danger"></i>
-        <p class="mt-2">HTML5</p>
+        <i class="<%= skill.iconClass %> fa-2x <%= skill.colorClass %>"></i>
+        <p class="mt-2"><%= skill.name %></p>
       </div>
-      <div class="col-4 col-md-3 col-lg-2 mb-4">
-        <i class="fab fa-css3-alt fa-2x text-primary"></i>
-        <p class="mt-2">CSS3</p>
-      </div>
-      <div class="col-4 col-md-3 col-lg-2 mb-4">
-        <i class="fab fa-js-square fa-2x text-warning"></i>
-        <p class="mt-2">JavaScript</p>
-      </div>
-      <div class="col-4 col-md-3 col-lg-2 mb-4">
-        <i class="fab fa-node-js fa-2x text-success"></i>
-        <p class="mt-2">Node.js</p>
-      </div>
-     
-    </div>
+    <% }) %>
   </div>
+</div>
 </section>

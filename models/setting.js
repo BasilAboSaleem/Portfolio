@@ -22,7 +22,6 @@ aboutSection: {
   degree: String,
   email: String,
   freelance: String,
-  
   footerContent: String
 }
 ,
