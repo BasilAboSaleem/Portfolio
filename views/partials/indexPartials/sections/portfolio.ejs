@@ -5,6 +5,26 @@
     object-fit: cover;
     border-radius: 5px;
   }
+
+     .portfolio-info a {
+    margin-left: 8px;
+    color: #333;
+    transition: color 0.3s ease;
+  }
+
+  .portfolio-info a:hover {
+    color: #007bff;
+  }
+
+  .live-preview-link i {
+    font-size: 1.2em; /* حجم أكبر قليلاً */
+    color: #007bff;
+  }
+
+  .live-preview-link:hover i {
+    color: #0056b3;
+  }
+  
 </style>
 <section id="portfolio" class="portfolio section light-background">
   <!-- Section Title -->
@@ -25,25 +45,28 @@
       </ul><!-- End Portfolio Filters -->
 
       <!-- Portfolio Items -->
-      <div class="row gy-4 isotope-container" data-aos="fade-up" data-aos-delay="200">
-        <% setting.portfolioSection?.items?.forEach(item => { %>
-          <div class="col-lg-4 col-md-6 portfolio-item isotope-item <%= item.categoryClasses ? item.categoryClasses.join(' ') : '' %>">
-            <div class="portfolio-content h-100">
-              <img src="<%= item.imageUrl %>" class="img-fluid" alt="">
-              <div class="portfolio-info">
-                <h4><%= item.title %></h4>
-                <p><%= item.description %></p>
-                <a href="<%= item.imageUrl %>" title="<%= item.previewTitle || item.title %>" data-gallery="<%= item.galleryGroup %>" class="glightbox preview-link">
-                  <i class="bi bi-zoom-in"></i>
-                </a>
-                <a href="<%= item.detailsLink || '#' %>" title="More Details" class="details-link">
-                  <i class="bi bi-link-45deg"></i>
-                </a>
-              </div>
-            </div>
-          </div>
-        <% }) %>
-      </div><!-- End Portfolio Container -->
+     <div class="row gy-4 isotope-container" data-aos="fade-up" data-aos-delay="200">
+  <% setting.portfolioSection?.items?.forEach(item => { %>
+    <div class="col-lg-4 col-md-6 portfolio-item isotope-item <%= item.categoryClasses ? item.categoryClasses.join(' ') : '' %>">
+      <div class="portfolio-content h-100">
+        <img src="<%= item.imageUrl %>" class="img-fluid" alt="">
+        <div class="portfolio-info">
+          <h4><%= item.title %></h4>
+          <p><%= item.description %></p>
+          <a href="<%= item.imageUrl %>" title="<%= item.previewTitle || item.title %>" data-gallery="<%= item.galleryGroup %>" class="glightbox preview-link">
+            <i class="bi bi-zoom-in"></i>
+          </a>
+          <a href="<%= item.detailsLink || '#' %>" title="More Details" class="details-link">
+            <i class="bi bi-link-45deg"></i>
+          </a>
+          <a href="<%= item.previewLink || '#' %>" title="Live Preview" class="live-preview-link" target="_blank" rel="noopener noreferrer">
+            <i class="bi bi-box-arrow-up-right"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+  <% }) %>
+</div>
 
     </div>
   </div>

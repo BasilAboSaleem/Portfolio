@@ -328,6 +328,7 @@ exports.dashboard_portfolio_put = async (req, res) => {
           imageUrl,
           description: item.description || '',
           previewTitle: item.previewTitle || '',
+          previewLink: item.previewLink || '',
           galleryGroup: item.galleryGroup || '',
           detailsLink: item.detailsLink || '',
           order: parseInt(item.order) || 0

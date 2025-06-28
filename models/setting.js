@@ -92,7 +92,8 @@ aboutSection: {
         imageUrl: { type: String, required: true },       // الصورة المصغرة (Thumbnail)
         description: { type: String },
         previewTitle: { type: String },
-        detailsLink: { type: String },                   // رابط التفاصيل
+        detailsLink: { type: String },                   // رابط التفاصيل على جيت هاب
+        previewLink: { type: String },                   // رابط المعاينة
         galleryGroup: { type: String },                  // portfolio-gallery-app
         order: { type: Number, default: 0 }
       }
