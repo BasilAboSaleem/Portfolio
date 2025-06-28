@@ -88,7 +88,7 @@ aboutSection: {
     items: [
       {
         title: { type: String, required: true },
-        categoryClass: { type: String, required: true }, // filter-app, filter-books...
+        categoryClasses: [{ type: String, required: true }], // filter-app, filter-books...
         imageUrl: { type: String, required: true },       // الصورة المصغرة (Thumbnail)
         description: { type: String },
         previewTitle: { type: String },

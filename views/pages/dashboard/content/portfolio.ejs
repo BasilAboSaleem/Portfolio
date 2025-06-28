@@ -83,17 +83,24 @@
                           <input type="text" name="portfolioSection[items][<%= index %>][title]" class="form-control" value="<%= item.title %>" required>
                         </div>
                         <div class="form-group col-md-6">
-                          <label>Category Class</label>
-                          <input type="text" name="portfolioSection[items][<%= index %>][categoryClass]" class="form-control" value="<%= item.categoryClass %>" required>
+                          <label>Category Classes (separate with commas)</label>
+                          <input
+                            type="text"
+                            name="portfolioSection[items][<%= index %>][categoryClasses]"
+                            class="form-control"
+                            value="<%= item.categoryClasses ? item.categoryClasses.join(', ') : '' %>"
+                            placeholder="filter-app, filter-frontend"
+                            required
+                          >
                         </div>
                       </div>
 
                       <div class="form-group">
                         <% if (item.imageUrl) { %>
-                       <div class="mb-2">
-                       <img src="<%= item.imageUrl %>" alt="Current Image" class="img-thumbnail" style="max-height: 150px;">
-                      </div>
-                         <% } %>
+                          <div class="mb-2">
+                            <img src="<%= item.imageUrl %>" alt="Current Image" class="img-thumbnail" style="max-height: 150px;">
+                          </div>
+                        <% } %>
 
                         <label>Select Image</label>
                         <input type="file" name="portfolioSection[items][<%= index %>][imageFile]" class="form-control-file" accept="image/*" >
@@ -196,8 +203,14 @@
               <input type="text" name="portfolioSection[items][${index}][title]" class="form-control" required>
             </div>
             <div class="form-group col-md-6">
-              <label>Category Class</label>
-              <input type="text" name="portfolioSection[items][${index}][categoryClass]" class="form-control" required>
+              <label>Category Classes (separate with commas)</label>
+              <input
+                type="text"
+                name="portfolioSection[items][${index}][categoryClasses]"
+                class="form-control"
+                placeholder="filter-app, filter-frontend"
+                required
+              >
             </div>
           </div>
           <div class="form-group">
@@ -208,13 +221,15 @@
             <label>Description</label>
             <textarea name="portfolioSection[items][${index}][description]" class="form-control" rows="2"></textarea>
           </div>
-          <div class="form-group col-md-6">
-            <label>Preview Title</label>
-            <input type="text" name="portfolioSection[items][${index}][previewTitle]" class="form-control">
-          </div>
-          <div class="form-group col-md-6">
-            <label>Gallery Group</label>
-            <input type="text" name="portfolioSection[items][${index}][galleryGroup]" class="form-control">
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <label>Preview Title</label>
+              <input type="text" name="portfolioSection[items][${index}][previewTitle]" class="form-control">
+            </div>
+            <div class="form-group col-md-6">
+              <label>Gallery Group</label>
+              <input type="text" name="portfolioSection[items][${index}][galleryGroup]" class="form-control">
+            </div>
           </div>
           <div class="form-group">
             <label>Details Link</label>

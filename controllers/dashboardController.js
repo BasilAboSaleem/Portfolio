@@ -311,13 +311,23 @@ exports.dashboard_portfolio_put = async (req, res) => {
           imageUrl = existingItem?.imageUrl || '';
         }
 
+        // تحويل النص إلى مصفوفة للفئات (categoryClasses)
+        let categoryClasses = [];
+        if (item.categoryClasses && typeof item.categoryClasses === 'string') {
+          categoryClasses = item.categoryClasses
+            .split(',')
+            .map(c => c.trim())
+            .filter(c => c.length > 0);
+        } else if (Array.isArray(item.categoryClasses)) {
+          categoryClasses = item.categoryClasses;
+        }
+
         return {
           title: item.title || '',
-          categoryClass: item.categoryClass || '',
+          categoryClasses, // ✅ متوافق مع الـ Schema
           imageUrl,
           description: item.description || '',
           previewTitle: item.previewTitle || '',
-          previewImage: item.previewImage || '',
           galleryGroup: item.galleryGroup || '',
           detailsLink: item.detailsLink || '',
           order: parseInt(item.order) || 0
@@ -350,6 +360,9 @@ exports.dashboard_portfolio_put = async (req, res) => {
     });
   }
 };
+
+
+
 
 exports.dashboard_services_get = async (req, res) => {
     try {
