@@ -35,7 +35,6 @@ exports.login_post = async (req, res) => {
 }
 
 exports.logout_get = (req, res) => {
-  console.log("Logged out");
         res.clearCookie('token');
         res.clearCookie('jwt');
         res.redirect('/login');

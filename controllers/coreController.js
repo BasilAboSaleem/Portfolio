@@ -7,7 +7,6 @@ exports.index_get = (req, res) => {
 exports.contact_post = async (req, res) => {
   try {
     const { name, email, subject, message } = req.body;
-    console.log("Contact form data:", { name, email, subject, message });
 
     // Validate input
     if (!name || !email || !subject || !message) {
