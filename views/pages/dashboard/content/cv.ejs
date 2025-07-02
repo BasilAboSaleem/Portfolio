@@ -31,21 +31,36 @@
           <div class="col-lg-8">
             <div class="card shadow mb-4">
               <div class="card-header py-3">
-                <h6 class="m-0 font-weight-bold text-primary">Upload or Update Your CV</h6>
+                <h6 class="m-0 font-weight-bold text-primary">Enter Your CV Link</h6>
               </div>
               <div class="card-body">
-                <form action="/dashboard/cv?_method=PUT" method="POST" enctype="multipart/form-data">
-                  <div class="form-group">
-                    <label for="cvFile">Upload CV (PDF or DOCX)</label>
-                    <input type="file" name="fileUrl" id="cvFile" class="form-control-file" accept=".pdf,.doc,.docx" required>
-                  </div>
 
-                  <% if (setting?.cv?.fileUrl) { %>
-                    <p>Current CV: <a href="<%= setting.cv.fileUrl %>" target="_blank" rel="noopener noreferrer">View / Download</a></p>
-                  <% } %>
+         <form action="/dashboard/cv?_method=PUT" method="POST">
+  <div class="form-group">
+    <label for="cvUrl">CV URL (Paste your PDF link here)</label>
+    <input
+      type="url"
+      name="fileUrl"
+      id="cvUrl"
+      class="form-control"
+      placeholder="https://example.com/your-cv.pdf"
+      required
+      value="<%= setting.cv ? setting.cv.fileUrl : '' %>"
+    >
+  </div>
 
-                  <button type="submit" class="btn btn-primary mt-3">Save CV</button>
-                </form>
+  <% if (setting.cv && setting.cv.fileUrl) { %>
+    <p class="mt-3">
+      <a href="<%= setting.cv.fileUrl %>" target="_blank" class="btn btn-success btn-sm">
+        <i class="bi bi-eye"></i> View Current CV
+      </a>
+    </p>
+  <% } %>
+
+  <button type="submit" class="btn btn-primary mt-3">Save CV Link</button>
+</form>
+
+
               </div>
             </div>
           </div>

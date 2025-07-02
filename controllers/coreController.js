@@ -1,4 +1,5 @@
 const nodemailer = require('nodemailer');
+const Setting = require('../models/setting');
 
 exports.index_get = (req, res) => {
     res.render('index');

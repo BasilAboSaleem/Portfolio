@@ -15,6 +15,8 @@ const { send } = require("process");
 const nodemailer = require('nodemailer');
 const crypto = require('crypto');
 const e = require("express");
+const streamifier = require('streamifier');
+
  // Configuration cloudinary اعدادات الكلاودنري
  cloudinary.config({ 
     cloud_name: process.env.CLOUD_NAME, 
@@ -37,5 +39,6 @@ const e = require("express");
   path,
   Parser,
   nodemailer,
-  crypto
+  crypto,
+  streamifier
 };

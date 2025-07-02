@@ -38,10 +38,14 @@
             <p class="py-3">
               <%= setting.aboutSection.footerContent %>
             </p>
-              <!-- زر تحميل السيرة الذاتية -->
-            <a href="<%= setting?.cv?.fileUrl || '#' %>" class="btn btn-primary" download>
-               <i class="bi bi-download"></i> Download CV
-             </a>
+    <!-- زر تحميل السيرة الذاتية -->
+<% if (setting.cv && setting.cv.fileUrl) { %>
+  <a href="<%= setting.cv.fileUrl %>" class="btn btn-primary" target="_blank">
+    <i class="bi bi-eye"></i> View CV
+  </a>
+<% } %>
+
+
           </div>
         </div>
 
